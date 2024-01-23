@@ -18,7 +18,7 @@ public class Application {
 
         EntityManager em = emf.createEntityManager();
         EventsDAO eventsDao = new EventsDAO(em);
-        Random rndm = new Random();
+
 
         LocalDate date = LocalDate.of(2022, 12,25);
 

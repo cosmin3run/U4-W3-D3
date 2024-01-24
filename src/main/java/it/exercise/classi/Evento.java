@@ -3,6 +3,7 @@ package it.exercise.classi;
 import javax.persistence.*;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "Events")
@@ -29,6 +30,12 @@ public class Evento {
     @Column(name = "max_participants")
     private int maxParticipants;
 
+    @ManyToMany
+    @JoinTable(name = "event_person",
+    joinColumns = @JoinColumn(name="event_id"),
+    inverseJoinColumns = @JoinColumn(name = "person_id"))
+    private List<Person> personList;
+
     public Evento(){};
 
     public Evento(String title, LocalDate event_date, String description, EventType eventType, int maxParticipants) {
@@ -38,6 +45,8 @@ public class Evento {
         this.eventType = eventType;
         this.maxParticipants = maxParticipants;
     }
+
+    public List<Person> getPersonList() {return personList;}
 
     public long getId() {
         return id;

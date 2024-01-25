@@ -16,14 +16,22 @@ public class Partecipation {
     @JoinColumn(name = "person_id")
     private Person person;
 
+    @ManyToOne
+    @JoinColumn(name = "event_id")
+    private Evento evento;
+
+    @Enumerated(EnumType.STRING)
+    private ParticipationStatus participationStatus;
+
+
     public Partecipation() {
     }
 
-    public Partecipation( Person person, Evento event, ParticipationStatus partecipationStatus) {
+    public Partecipation( Person person, Evento event) {
 
         this.person = person;
         this.event = event;
-        this.partecipationStatus = partecipationStatus;
+
     }
 
     public long getId() {

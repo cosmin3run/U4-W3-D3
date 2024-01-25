@@ -3,6 +3,7 @@ package it.exercise.classi;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "person")
@@ -18,16 +19,15 @@ public class Person {
     private Gender gender;
 
 
-    @ManyToMany
-    @JoinTable(name = "event_person",
-            joinColumns = @JoinColumn(name = "person_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id")
-    )
-
-    private List<Evento> eventoList;
-
-    @OneToMany(mappedBy = "persona")
+    @OneToMany(mappedBy = "person")
     private List<Partecipation> partecipationList;
+
+
+   @ManyToMany
+   @JoinTable(name = "challenge_person", joinColumns = @JoinColumn(name = "person_id"), inverseJoinColumns = @JoinColumn(name ="competition_id"))
+   private Set<AtlethicsCompetition> atlethicsCompetitions;
+
+
 
     //CONSTRUCTORS
     public Person() {
@@ -41,8 +41,10 @@ public class Person {
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
 
+
     }
 
+    public Set<AtlethicsCompetition> atlethicsCompetitions() {return atlethicsCompetitions;}
     public long getId() {
         return id;
     }

@@ -6,48 +6,53 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "Events")
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "events")
 
-public class Evento {
+public abstract class Evento {
     @Id
     @GeneratedValue
 
     private long id;
 
-    @Column(name="title")
+
     private String title;
 
-    @Column(name="event_date")
+
     private LocalDate event_date;
 
-    @Column(name="description")
+
     private String description;
 
-    @Column(name = "event_type")
+
     @Enumerated(EnumType.STRING)
     private EventType eventType;
 
-    @Column(name = "max_participants")
+
     private int maxParticipants;
 
-    @ManyToMany
-    @JoinTable(name = "event_person",
-    joinColumns = @JoinColumn(name="event_id"),
-    inverseJoinColumns = @JoinColumn(name = "person_id"))
-    private List<Person> personList;
+    @ManyToOne
+    @JoinColumn(name = "event_location_id")
+    private Location locationEvent;
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.REMOVE)
+    private List<Partecipation> partecipationList;
+
 
     public Evento(){};
 
-    public Evento(String title, LocalDate event_date, String description, EventType eventType, int maxParticipants) {
+    public Evento(String title, LocalDate event_date, String description, EventType eventType, int maxParticipants, Location locationEvent) {
         this.title = title;
         this.event_date = event_date;
         this.description = description;
         this.eventType = eventType;
         this.maxParticipants = maxParticipants;
+        this.locationEvent = locationEvent;
     }
 
-    public List<Person> getPersonList() {return personList;}
 
+
+    public List<Partecipation> getPartecipationList(){return partecipationList;}
     public long getId() {
         return id;
     }

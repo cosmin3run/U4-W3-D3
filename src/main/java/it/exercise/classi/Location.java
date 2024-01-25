@@ -1,9 +1,7 @@
 package it.exercise.classi;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "location")
@@ -14,11 +12,14 @@ public class Location {
     private String name;
     private String city;
 
+    @OneToMany
+    @JoinColumn(name = "location")
+    private List<Evento> eventoList;
+
     public Location() {
     }
 
-    public Location(long id, String name, String city) {
-        this.id = id;
+    public Location(String name, String city) {
         this.name = name;
         this.city = city;
     }
